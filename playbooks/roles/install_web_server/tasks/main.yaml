@@ -1,0 +1,13 @@
+- name: Install WEB Server IIS
+  ansible.windows.win_feature:
+    name: Web-Server
+    state: present
+    include_sub_features: true
+    include_management_tools: true
+  register: win_feature
+
+
+#- name: Install OpenSSL using Chocolatey
+#  win_chocolatey:
+#    name: openssl
+#    state: present

@@ -1,0 +1,17 @@
+---
+- hosts: windows
+  roles:
+    - role: dc_install_and_create
+      tags: install_dc
+
+    - role: create_groups_and_users
+      tags: users_and_groups
+     
+#    - role: install_ca
+#     tags: install_ca_openssl
+
+    - role: install_web_server
+      tags: install_IIS_web_server
+
+    - role: install_ca_auth
+      tags: install_ca_auth

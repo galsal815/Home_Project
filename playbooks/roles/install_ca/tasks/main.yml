@@ -1,0 +1,30 @@
+---
+#    - name: Install Active Directory Certificate Services Feature
+#      win_feature:
+#        name: ADCS-Cert-Authority
+#        state: present
+
+    - name: Install Certification Authority
+      win_shell: Install-AdcsCertificationAuthority -CAType StandaloneRootCa
+#      args:
+#        executable: powershell.exe
+
+    - name: Enable the AD CS service
+      win_shell: Set-Service -Name CertSvc -StartupType Automatic
+      register: enable_service_result
+
+    - name: Start the AD CS service
+      win_shell: Start-Service -Name certsrv
+
+    - name: Download OpenSSL installer
+      win_get_url:
+        url: "https://slproweb.com/download/Win64OpenSSL-3_2_1.exe"
+        dest: C:\Temp\Win64OpenSSL-3_2_1.exe
+
+    - name: Install OpenSSL
+      win_shell: |
+        Start-Process -FilePath "C:\Temp\Win64OpenSSL-3_2_1.exe" -ArgumentList "/S" -Wait
+      args:
+        executable: powershell
+      become: yes
+      become_user: Administrator

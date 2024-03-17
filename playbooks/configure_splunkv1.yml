@@ -1,0 +1,35 @@
+---
+- name: Configure Splunk Forwarder on Windows Server
+  hosts: windows
+  tasks:
+    - name: Download Splunk Universal Forwarder
+      win_get_url:
+        url: "https://download.splunk.com/products/universalforwarder/releases/9.2.0.1/windows/splunkforwarder-9.2.0.1-d8ae995bf219-x64-release.msi"
+        dest: C:\splunkforwarder.msi
+
+    - name: Install Splunk Universal Forwarder
+      win_package:
+        path: C:\splunkforwarder.msi
+        state: present
+
+    - name: Configure Splunk Forwarder
+      win_command: "C:\\Program Files\\SplunkUniversalForwarder\\bin\\splunk.exe start --accept-license --answer-yes --no-prompt"
+      ignore_errors: yes
+
+    - name: Configure inputs.conf for IIS logs
+      win_template:
+        src: templates/inputs.conf.j2
+        dest: 'C:\\Program Files\\SplunkUniversalForwarder\\etc\\system\\local\\inputs.conf'
+
+- name: Configure Splunk Indexer on Ubuntu Server
+  hosts: remote-controller
+  tasks:
+    - name: Copy inputs.conf to Splunk indexer
+      copy:
+        src: files/inputs.conf
+        dest: /opt/splunk/etc/system/local/inputs.conf
+
+    - name: Restart Splunk service
+      service:
+        name: splunk
+        state: restarted

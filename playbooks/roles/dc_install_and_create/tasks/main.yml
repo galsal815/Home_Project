@@ -1,0 +1,31 @@
+---
+- name: Install AD-Domain-Services feature
+  ansible.windows.win_feature:
+    name: AD-Domain-Services
+    include_management_tools: true
+    include_sub_features: true
+
+- name: Setup Active Directory Controller
+  win_domain:
+    dns_domain_name: localsalamander.com
+    safe_mode_password: "{{ pass_var }}"
+  register: active_directory_controllers
+  vars:
+      pass_var: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          36633338383734613030356333643064643934636235393130303437623965323930373965323231
+          6632396239653665396537383763386466366563643534310a373935316631323731333638366162
+          65383039623931323762633261333762343830663966393633323538633334393136636537303433
+          3461333065656137610a613764366436663435303264326130383466313963643663393838646630
+          6165
+
+- name: Reboot after the DC is created
+  win_reboot:
+  when: active_directory_controllers.reboot_required
+
+- name: List Domain Controllers in Domain
+  win_shell: "nltest /dclist:localsalamander.com"
+  register: domain_list
+
+- debug:
+    var: domain_list

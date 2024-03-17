@@ -1,0 +1,6 @@
+---
+- hosts: remote-controller
+  roles:
+    - role: install_docker_splunk
+      tags: install_docker_splunk
+

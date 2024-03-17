@@ -1,0 +1,15 @@
+---
+- name: Install Certificate Authority role
+  win_feature:
+    name: ADCS-Cert-Authority
+    state: present
+  become: yes
+  become_method: runas
+  become_user: ansible
+
+- name: Configure Certificate Authority settings
+  win_shell: |
+    Install-AdcsCertificationAuthority -CAType "StandaloneRootCA" -CACommonName "ansible" -KeyLength 2048 -HashAlgorithmName SHA256 -ValidityPeriod Years -ValidityPeriodUnits 10 -Force
+  become: yes
+  become_method: runas
+  become_user: ansible

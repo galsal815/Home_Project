@@ -1,0 +1,23 @@
+---
+- name: Create Windows Domain groups
+  win_domain_group:
+    name: localsalamander
+    scope: Global
+    state: present
+
+- name: Create Windows Domain Users
+  win_domain_user:
+    name: galsal
+    firstname: gal
+    surname: salamander
+    password: "{{ pass_var }}"
+    groups: localsalamander
+    state: present
+  vars:
+    pass_var: !vault |
+        $ANSIBLE_VAULT;1.1;AES256
+        37613935376130623063393435316538663936663133613030343334306331366263383931623135
+        3933323131323361373165623839393030306335383732660a656236346538616265336437396537
+        32336231366333306230636362363566333833646266366336373335303563636230306136386466
+        3933313334626534340a626665393932383866316531303830383936623165666433656666383537
+        3336
