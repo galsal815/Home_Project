@@ -1,0 +1,7 @@
+https://docs.ansible.com/ansible/2.9/user_guide/vault.html  (encrypt passwords via ansible vault)
+https://stackoverflow.com/questions/53205687/ansible-unable-to-parse-etc-ansible-hosts-as-an-inventory-source (issue with hosts.yaml)
+https://docs.ansible.com/ansible/latest/collections/ansible/windows/win_feature_module.html (install web derver via ansible playbook and issue with win_feature)
+https://www.youtube.com/watch?v=z-ablNX-3cw (chocolty install, deploy apps via chocolty in playbook)
+https://stackoverflow.com/questions/47567580/inline-encrypted-variable-not-json-serializable (encrypt pass AD playbook)
+https://github.com/ldelouw/active-directory-ansible-playbook/tree/main (AD install & cerate group & add user to group)
+https://hub.docker.com/r/splunk/splunk (splunk deploy)
